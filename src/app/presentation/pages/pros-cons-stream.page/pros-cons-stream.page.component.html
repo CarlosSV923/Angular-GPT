@@ -1,1 +1,39 @@
-<p>pros-cons-stream.page works!</p>,
+<div class="chat-container">
+    <div class="chat-messages">
+
+        <div class="grid gap-y-2">
+            
+            @for(message of messages(); track message.text) {
+                @if (message.isGpt) {
+                    <app-gpt-message [message]="message.text" />
+                } 
+                @else {
+                    <app-my-message [message]="message.text" />
+                }
+            }
+
+            @if (isLoading()){
+                <app-typing-loader />
+            }
+        </div>
+
+    </div>
+
+    <app-text-message-box
+        placeholder="Escribe tu mensaje aquí..."
+        (onMessageSend)="onMessageSend($event)"
+    />
+    <!-- <app-file-message-box
+        placeholder="Escribe tu mensaje aquí..."
+        (onMessageSend)="onMessageSend($event)"
+    /> -->
+    <!-- <app-select-message-box 
+        placeholder="Escribe tu mensaje aquí..." 
+        (onMessageSend)="onMessageSend($event)" 
+        [options]="[
+            { id: 'option1', text: 'Opción 1' },
+            { id: 'option2', text: 'Opción 2' },
+            { id: 'option3', text: 'Opción 3' }
+        ]"
+    /> -->
+</div>

@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { GptMessageComponent, MyMessageComponent, TextMessageBoxComponent, TypingLoaderComponent } from '@components/index';
 import { IMessage } from '@interfaces/index';
 import { OpenIAService } from 'app/presentation/services/openia.service';
+
 @Component({
-  selector: 'app-pros-cons.page',
+  selector: 'app-chat-template',
   imports: [
     GptMessageComponent,
     MyMessageComponent,
@@ -12,18 +13,17 @@ import { OpenIAService } from 'app/presentation/services/openia.service';
     // FileMessageBoxComponent,
     // SelectMessageBoxComponent,
     // IMessageEvent,
-
   ],
-  templateUrl: './pros-cons.page.component.html',
+  templateUrl: './chat-template.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class ProsConsPageComponent {
+export class ChatTemplateComponent {
 
   // onMessageSend(message: IMessageEvent) {
   //   console.log('Mensaje enviado:', message);
   // }
 
-  public messages = signal<IMessage[]>([{ text: "¡Hola! ¿Cómo puedo ayudarte hoy?", isGpt: true, info: { score: -1, corrections: [] } }]);
+  public messages = signal<IMessage[]>([]);
   public isLoading = signal<boolean>(false);
   public openIAService = inject(OpenIAService);
 
@@ -32,11 +32,6 @@ export default class ProsConsPageComponent {
   // }
 
   onMessageSend(prompt: string) {
-    this.isLoading.set(true);
-    this.messages.update((msgs) => [...msgs, { text: prompt, isGpt: false, info: { score: -1, corrections: [] } }]);
-    this.openIAService.prosCons(prompt).subscribe(response => {
-      this.isLoading.set(false);
-      this.messages.update((msgs) => [...msgs, { text: response.content, isGpt: true, info: { score: -1, corrections: [] } }]); 
-    });
+    console.log('Mensaje enviado:', prompt);
   }
- }
+}

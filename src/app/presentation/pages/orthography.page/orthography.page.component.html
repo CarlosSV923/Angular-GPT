@@ -2,11 +2,43 @@
     <div class="chat-messages">
 
         <div class="grid gap-y-2">
-            <!-- Chat messages will be displayed here -->
+            
+            @for(message of messages(); track $index) {
+                @if (message.isGpt) {
+                    <app-gpt-message-orthography 
+                        [message]="message.text" 
+                        [score]="message.info?.score!"
+                        [corrections]="message.info?.corrections!"
+                    />
+                } 
+                @else {
+                    <app-my-message [message]="message.text" />
+                }
+            }
+
+            @if (isLoading()){
+                <app-typing-loader />
+            }
         </div>
 
     </div>
 
-    <!-- Message box -->
-
+    <app-text-message-box
+        placeholder="Escribe tu mensaje aquí..."
+        (onMessageSend)="onMessageSend($event)"
+        [disableCorrections]="true"
+    />
+    <!-- <app-file-message-box
+        placeholder="Escribe tu mensaje aquí..."
+        (onMessageSend)="onMessageSend($event)"
+    /> -->
+    <!-- <app-select-message-box 
+        placeholder="Escribe tu mensaje aquí..." 
+        (onMessageSend)="onMessageSend($event)" 
+        [options]="[
+            { id: 'option1', text: 'Opción 1' },
+            { id: 'option2', text: 'Opción 2' },
+            { id: 'option3', text: 'Opción 3' }
+        ]"
+    /> -->
 </div>
